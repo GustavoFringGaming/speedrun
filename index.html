@@ -1,69 +1,140 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <link rel="stylesheet" href="style.css"/>
-    </head>
-    <body>
-        <h1>speedrun</h1>
-        <table>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speedrun Leaderboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #1a1a1a;
+            color: #fff;
+        }
+        h1 {
+            text-align: center;
+        }
+        table {
+            width: 100%;
+            max-width: 800px;
+            border-collapse: collapse;
+            margin: 20px 0;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+        th, td {
+            padding: 15px;
+            text-align: center;
+            border-bottom: 1px solid #333;
+        }
+        th {
+            cursor: pointer;
+            background-color: #333;
+        }
+        tr:nth-child(even) {
+            background-color: #2b2b2b;
+        }
+        tr:hover {
+            background-color: #444;
+        }
+    </style>
+</head>
+<body>
+
+    <div>
+        <h1>Speedrun Leaderboard</h1>
+        <table id="leaderboard">
             <thead>
                 <tr>
-                    <th>spel</th>
-                    <th>tijd</th>
-                    <th>spelers</th>
-                    <th>date</th>
+                    <th onclick="sortTable(0)">Game</th>
+                    <th onclick="sortTable(1)">Time</th>
+                    <th onclick="sortTable(2)">Players</th>
+                    <th onclick="sortTable(3)">Date</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td>minecraft</td>
-                    <td>49m 43 sec</td>
-                    <td>joep, luuk, micha, ralph</td>
-                    <td>26 nov</td>
+                    <td>Minecraft</td>
+                    <td>49m 43s</td>
+                    <td>Joep, Luuk, Micha, Ralph</td>
+                    <td>26 Nov</td>
                 </tr>
                 <tr>
-                    <td>minecraft  but upside down + cripplecraft</td>
-                    <td>3h 35m 59 sec</td>
-                    <td>joep, luuk, micha, ralph</td>
-                    <td>18 nov</td>
+                    <td>Minecraft (Upside Down + Cripplecraft)</td>
+                    <td>3h 35m 59s</td>
+                    <td>Joep, Luuk, Micha, Ralph</td>
+                    <td>18 Nov</td>
                 </tr>
                 <tr>
-                    <td>minecraft  but upside down</td>
-                    <td>2h 19m 30 sec</td>
-                    <td>joep, luuk, micha, ralph</td>
-                    <td>14 nov</td>
+                    <td>Minecraft (Upside Down)</td>
+                    <td>2h 19m 30s</td>
+                    <td>Joep, Luuk, Micha, Ralph</td>
+                    <td>14 Nov</td>
                 </tr>
                 <tr>
-                    <td>minecraft (no jumping + sprinting) [cripplecraft]</td>
-                    <td>1h 58m 38 sec</td>
-                    <td>joep, luuk, ralph</td>
-                    <td>13 nov</td>
+                    <td>Minecraft (No Jumping + Sprinting) [Cripplecraft]</td>
+                    <td>1h 58m 38s</td>
+                    <td>Joep, Luuk, Ralph</td>
+                    <td>13 Nov</td>
                 </tr>
                 <tr>
-                    <td>minecraft</td>
-                    <td>45m 54 sec</td>
-                    <td>joep, luuk, ralph</td>
-                    <td>12 nov</td>
+                    <td>Minecraft</td>
+                    <td>45m 54s</td>
+                    <td>Joep, Luuk, Ralph</td>
+                    <td>12 Nov</td>
                 </tr>
                 <tr>
-                    <td>minecraft</td>
-                    <td>1h 03m 17 sec</td>
-                    <td>joep, ralph</td>
-                    <td>12 nov</td>
+                    <td>Minecraft</td>
+                    <td>1h 03m 17s</td>
+                    <td>Joep, Ralph</td>
+                    <td>12 Nov</td>
                 </tr>
                 <tr>
-                    <td>minecraft</td>
-                    <td>1h 00m 27 sec</td>
-                    <td>joep, micha, ralph</td>
-                    <td>12 nov</td>
+                    <td>Minecraft</td>
+                    <td>1h 00m 27s</td>
+                    <td>Joep, Micha, Ralph</td>
+                    <td>12 Nov</td>
                 </tr>
                 <tr>
-                    <td>minecraft</td>
+                    <td>Minecraft</td>
                     <td>1h 20m</td>
-                    <td>joep, micha, ralph</td>
-                    <td>08 nov</td>
+                    <td>Joep, Micha, Ralph</td>
+                    <td>08 Nov</td>
                 </tr>
             </tbody>
         </table>
-    </body>
+    </div>
+
+    <script>
+        function sortTable(columnIndex) {
+            const table = document.getElementById("leaderboard");
+            let rows = Array.from(table.rows).slice(1);
+            const direction = table.dataset.sortOrder === "asc" ? "desc" : "asc";
+            table.dataset.sortOrder = direction;
+
+            rows.sort((a, b) => {
+                const cellA = a.cells[columnIndex].innerText.toLowerCase();
+                const cellB = b.cells[columnIndex].innerText.toLowerCase();
+
+                if (columnIndex === 1) {
+                    return direction === "asc" ? parseTime(cellA) - parseTime(cellB) : parseTime(cellB) - parseTime(cellA);
+                }
+                return direction === "asc" ? cellA.localeCompare(cellB) : cellB.localeCompare(cellA);
+            });
+
+            rows.forEach(row => table.appendChild(row));
+        }
+
+        function parseTime(timeStr) {
+            const parts = timeStr.match(/(\d+h)?\s*(\d+m)?\s*(\d+s)?/);
+            const hours = parseInt(parts[1]) || 0;
+            const minutes = parseInt(parts[2]) || 0;
+            const seconds = parseInt(parts[3]) || 0;
+            return hours * 3600 + minutes * 60 + seconds;
+        }
+    </script>
+
+</body>
 </html>
