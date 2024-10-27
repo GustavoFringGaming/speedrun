@@ -39,6 +39,13 @@
         tr:hover {
             background-color: #444;
         }
+        a {
+            color: #4CAF50;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
@@ -52,6 +59,7 @@
                     <th onclick="sortTable(1)">Time</th>
                     <th onclick="sortTable(2)">Players</th>
                     <th onclick="sortTable(3)">Date</th>
+                    <th>Clip</th>
                 </tr>
             </thead>
             <tbody>
@@ -71,15 +79,23 @@
 			rows.forEach(row => {
 				const cells = row.split(';');
 				const tr = document.createElement('tr');
-				cells.forEach(cell => {
+
+				cells.forEach((cell, index) => {
 					const td = document.createElement('td');
-					td.textContent = cell.trim();
+					if (index === 4) { // Check if it's the Clip column
+						const link = document.createElement('a');
+						link.href = cell.trim();
+						link.target = "_blank";
+						link.textContent = "Watch";
+						td.appendChild(link);
+					} else {
+						td.textContent = cell.trim();
+					}
 					tr.appendChild(td);
 				});
 				tableBody.appendChild(tr);
 			});
 		}
-
 
         function sortTable(columnIndex) {
             const table = document.getElementById("leaderboard");
