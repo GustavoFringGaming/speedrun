@@ -82,7 +82,7 @@
             const randomNumber = Math.floor(Math.random() * 1000) + 1;
             const response = await fetch(`https://raw.githubusercontent.com/GustavoFringGaming/speedrun/refs/heads/main/data.csv?token=$${randomNumber}`);
             const data = await response.text();
-            const rows = data.trim().split('\n').slice(1); // Remove header row
+            const rows = (data.trim().split('\n').slice(1)).reverse(); // Remove header row
         
             const tableBody = document.querySelector("#leaderboard tbody");
             rows.forEach(row => {
