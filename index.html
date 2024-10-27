@@ -68,7 +68,7 @@
 
             const tableBody = document.querySelector("#leaderboard tbody");
             rows.forEach(row => {
-                const cells = row.split(',');
+                const cells = row.split(';');
                 const tr = document.createElement('tr');
                 cells.forEach(cell => {
                     const td = document.createElement('td');
