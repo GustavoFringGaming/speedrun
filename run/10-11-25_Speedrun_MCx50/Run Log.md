@@ -1,0 +1,14 @@
+# Speedrun Log (10/11/25) - Minecraft 50x Tick Rate
+
+## Server Specifications
+
+  * **Host**: Proxmox-LXC
+  * **CPU**: Xeon Gold 6248 with 20 vCPU
+  * **Memory**: 32 GB
+  * **Software**: [PaperMC 1.21.8 Build 60](https://fill-data.papermc.io/v1/objects/8de7c52c3b02403503d16fac58003f1efef7dd7a0256786843927fa92ee57f1e/paper-1.21.8-60.jar)
+
+## Command Log
+
+```
+/tick rate 1000
+```
